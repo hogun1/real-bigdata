@@ -64,9 +64,11 @@ else:
 # 실행 안내
 st.markdown("---")
 st.markdown(
-    "로컬에서 실행하려면:\n"
-    "```
-"
-    "pip install streamlit pandas plotly\n"
-    "streamlit run main.py\n"
-    "```")
+    '''
+로컬에서 실행하려면:
+```
+pip install streamlit pandas plotly
+streamlit run main.py
+```
+    '''
+)
