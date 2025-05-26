@@ -1,6 +1,25 @@
 import streamlit as st
 st.title('나의 첫 Streamlit 앱')
 st.write('안녕하세요!')
+# 필요한 패키지를 자동으로 설치하도록 설정 (실행 환경에 pip가 있을 때만 동작)
+import subprocess
+import sys
+
+def install_packages():
+    """
+    streamlit, pandas, plotly가 설치되어 있지 않으면 설치합니다.
+    """
+    packages = ["streamlit", "pandas", "plotly"]
+    for pkg in packages:
+        try:
+            __import__(pkg)
+        except ImportError:
+            subprocess.check_call([sys.executable, "-m", "pip", "install", pkg])
+
+# 자동 설치 호출
+install_packages()
+
+# streamlit, pandas, plotly 임포트
 import streamlit as st
 import pandas as pd
 import plotly.express as px
@@ -38,7 +57,7 @@ if 'date' in data.columns:
     # 필터 적용
     if len(selected_range) == 2:
         start, end = selected_range
-n        mask = (data['date'] >= pd.to_datetime(start)) & (data['date'] <= pd.to_datetime(end))
+        mask = (data['date'] >= pd.to_datetime(start)) & (data['date'] <= pd.to_datetime(end))
         filtered = data.loc[mask]
     else:
         filtered = data.copy()
@@ -76,9 +95,17 @@ else:
 # 실행 안내
 st.markdown("---")
 st.markdown(
-    "### 실행 방법\n"
+    "### 로컬 실행 방법\n"
     "```bash\n"
+    "git clone https://github.com/<your-username>/<your-repo>.git\n"
+    "cd <your-repo>\n"
     "pip install streamlit pandas plotly\n"
-    "streamlit run streamlit_plotly_app.py\n"
+    "streamlit run main.py\n"
     "```"
+    "\n"
+    "### Streamlit Cloud 배포 방법\n"
+    "1. GitHub에 코드를 푸시합니다 (main.py 및 requirements.txt 생성).\n"
+    "2. [Streamlit Cloud](https://share.streamlit.io/)에 로그인합니다.\n"
+    "3. 앱 새로 만들기(New app) > GitHub 리포지토리 선택 > 브랜치(main) > 경로(main.py) 설정 후 배포합니다.\n"
+    "4. 배포된 URL로 접속하면 대시보드가 자동으로 실행됩니다.\n"
 )
